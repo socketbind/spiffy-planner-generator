@@ -5,3 +5,11 @@ cache: yarn
 script:
   - parcel build index.html
 sudo: false
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  local_dir: ${TRAVIS_BUILD_DIR}/dist
+  on:
+    branch: master
