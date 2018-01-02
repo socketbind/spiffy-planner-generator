@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Spiffy Planner Generator</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="./fonts/inter-ui/stylesheet.css">
+  <link rel="stylesheet" href="./fonts/fa/fa-regular.css">
+  <link rel="stylesheet" href="./fonts/fa/fontawesome.css">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+
+  <main>
+    <section class="page-container">
+      <div class="page-wrapper">
+        <div class="buttons">
+          <button id="save-svg-button" class="btn">Save SVG</button>
+        </div>
+        <svg width="210mm" height="297mm" viewBox="0 0 210 297" id="page-svg">
+        </svg>
+      </div>
+    </section>
+    <aside>
+      <section>
+        <h1>Spiffy Planner Generator</h1>
+
+        <form>
+          <fieldset>
+            <legend>General</legend>
+            <div>
+              <label for="year">Year:</label>
+              <input id="year" name="year" type="number">
+            </div>
+            <div>
+              <label for="month">Month:</label>
+              <input id="month" name="month" type="number" min="1" max="12">
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Page setup</legend>
+            <div>
+              <label for="page-width">Width:</label>
+              <input id="page-width" name="pageWidth" type="number">
+              <abbr>mm</abbr>
+            </div>
+            <div>
+              <label for="page-height">Height:</label>
+              <input id="page-height" name="pageHeight" type="number">
+              <abbr>mm</abbr>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Typography</legend>
+            <div>
+              <label for="font-family">Font family:</label>
+              <input id="font-family" name="fontFamily">
+            </div>
+            <div>
+              <label for="font-size">Font size:</label>
+              <input id="font-size" name="fontSize" type="number">
+              <abbr>mm</abbr>
+            </div>
+            <div>
+              <label for="font-color">Font color:</label>
+              <input id="font-color" name="fontColor">
+            </div>
+            <div>
+              <label for="month-font-size">Month font size:</label>
+              <input id="month-font-size" name="monthFontSize" type="number">
+            </div>
+            <div>
+              <label for="month-font-color">Month font color:</label>
+              <input id="month-font-color" name="monthFontColor">
+            </div>
+            <div>
+              <label for="header-font-size">Header font size:</label>
+              <input id="font-size" name="headerFontSize" type="number">
+              <abbr>mm</abbr>
+            </div>
+            <div>
+              <label for="header-font-color">Header font color:</label>
+              <input id="header-font-color" name="headerFontColor">
+            </div>
+
+          </fieldset>
+
+          <fieldset>
+            <legend>Dimensions</legend>
+            <div>
+              <label for="content-start">Content start:</label>
+              <input id="content-start" name="contentStart" type="number">
+              <abbr>mm</abbr>
+            </div>
+            <div>
+              <label for="content-horizontal-margin">Content start:</label>
+              <input id="content-horizontal-margin" name="contentHorizontalMargin" type="number">
+              <abbr>mm</abbr>
+            </div>
+            <div>
+              <label for="day-x">Day Divider X:</label>
+              <input id="day-x" name="dayX" type="number">
+              <abbr>mm</abbr>
+            </div>
+            <div>
+              <label for="day-name-x">Day Name X:</label>
+              <input id="day-name-x" name="dayNameX" type="number">
+              <abbr>mm</abbr>
+            </div>
+            <div>
+              <label for="day-divider-x">Day Divider X:</label>
+              <input id="day-divider-x" name="dayDividerX" type="number">
+              <abbr>mm</abbr>
+            </div>
+            <div>
+              <label for="day-vertical-padding">Day Vertical Padding:</label>
+              <input id="day-vertical-padding" name="dayVerticalPadding" type="number">
+              <abbr>mm</abbr>
+            </div>
+            <div>
+              <label for="plan-line-margin">Plan line margin:</label>
+              <input id="plan-line-margin" name="planLineMargin" type="number">
+              <abbr>mm</abbr>
+            </div>
+            <div>
+              <label for="month-vertical-margin">Margin between month and content:</label>
+              <input id="month-vertical-margin" name="monthVerticalMargin" type="number">
+              <abbr>mm</abbr>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Color</legend>
+            <div>
+              <label for="header-background">Header background:</label>
+              <input id="header-background" name="headerBackground">
+            </div>
+            <div>
+              <label for="line-color">Line color:</label>
+              <input id="line-color" name="lineColor">
+            </div>
+          </fieldset>
+        </form>
+      </section>
+    </aside>
+  </main>
+
+
+
+  <script src="./js/index.js"></script>
+</body>
+
+</html>
