@@ -1,3 +1,5 @@
+import "regenerator-runtime/runtime";
+
 import SVG from 'svg.js';
 import FileSaver from 'file-saver';
 
