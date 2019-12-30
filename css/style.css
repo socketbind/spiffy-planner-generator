@@ -91,6 +91,5 @@ aside fieldset legend {
 }
 
 .buttons {
-  position: absolute;
-  left: 620px;
+  text-align: center;
 }

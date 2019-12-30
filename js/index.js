@@ -3,12 +3,15 @@ import "regenerator-runtime/runtime";
 import SVG from 'svg.js';
 import FileSaver from 'file-saver';
 
+import jsPDF from './vendor/jspdf.debug';
+import svg2pdf from './vendor/svg2pdf';
+
 SVG.Element.prototype.do = function(fn, ...args) {
   fn.call(this, ...args);
 };
 
 const calendarDefaults = {
-  "year": 2018,
+  "year": new Date().getFullYear(),
   "month": 1,
 
   "pageWidth": 210,
@@ -240,8 +243,8 @@ parameters
 
 painter.redraw(calendarDefaults);
 
-const saveButton = document.querySelector("#save-svg-button");
-saveButton.addEventListener("click", e => {
+const saveSvgButton = document.querySelector("#save-svg-button");
+saveSvgButton.addEventListener("click", e => {
   e.preventDefault();
 
   const year = (painter.opts && painter.opts.year) || 'unknown';
@@ -250,3 +253,30 @@ saveButton.addEventListener("click", e => {
   const svgBlob = new Blob([painter.getSvgSource()], {type: "image/svg+xml"});
   FileSaver.saveAs(svgBlob, `planner-${year}-${month}.svg`);
 }, false);
+
+
+const savePdfButton = document.querySelector("#save-pdf-button");
+savePdfButton.addEventListener("click", e => {
+  e.preventDefault();
+
+  const year = (painter.opts && painter.opts.year) || 'unknown';
+  const month = (painter.opts && painter.opts.month) || 'unknown';
+
+  const svgElement = document.getElementById('page-svg');
+  const pdf = new jsPDF('p', 'mm', [210, 297]);
+
+  svg2pdf(svgElement, pdf, {
+    xOffset: 0,
+    yOffset: 0,
+    scale: 1
+  });
+
+  pdf.save(`planner-${year}-${month}.pdf`);
+}, false);
+
+const printButton = document.querySelector("#print-button");
+printButton.addEventListener("click", e => {
+  e.preventDefault();
+
+  window.print();
+});

@@ -6,9 +6,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" media="screen" href="./node_modules/bootstrap/dist/css/bootstrap.css">
   <link rel="stylesheet" href="./fonts/inter-ui/stylesheet.css">
-  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" media="screen" href="./css/style.css">
+  <link rel="stylesheet" media="print" href="./css/print.css">
 </head>
 
 <body>
@@ -16,9 +17,6 @@
   <main>
     <section class="page-container">
       <div class="page-wrapper">
-        <div class="buttons">
-          <button id="save-svg-button" class="btn">Save SVG</button>
-        </div>
         <svg width="210mm" height="297mm" viewBox="0 0 210 297" id="page-svg">
         </svg>
       </div>
@@ -26,7 +24,11 @@
     <aside>
       <section>
         <h1>Spiffy Planner Generator</h1>
-
+        <div class="buttons">
+          <button id="print-button" class="btn btn-primary">Print</button>
+          <button id="save-pdf-button" class="btn btn-secondary">Save PDF</button>
+          <button id="save-svg-button" class="btn btn-secondary">Save SVG</button>
+        </div>
         <form>
           <fieldset>
             <legend>General</legend>
@@ -149,7 +151,8 @@
   </main>
 
 
-
+  <script src="node_modules/jspdf-yworks/dist/jspdf.debug.js"></script>
+  <script src="node_modules/svg2pdf.js/dist/svg2pdf.min.js"></script>
   <script src="./js/index.js"></script>
 </body>
 
