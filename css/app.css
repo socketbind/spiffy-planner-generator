@@ -1,0 +1,73 @@
+@import "~/node_modules/normalize.css/normalize.css";
+@import "~/node_modules/@blueprintjs/core/lib/css/blueprint.css";
+
+body {
+    background: #CED9E0;
+}
+
+main {
+    display: flex;
+    height: 100%;
+    overflow: auto;
+}
+
+section.page-container {
+    flex: 2;
+}
+
+.page-container svg {
+    box-shadow: 2px 2px 8px rgba(30, 30, 30, 0.5);
+    width: 600px;
+    height: 848px;
+    background: white;
+    display: block;
+}
+
+.calendar-render {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+aside {
+    flex: 0 0 500px;
+    padding: 1em;
+    color: #888888;
+}
+
+aside .bp3-card {
+    border-top: 3px solid #ff6837;
+}
+
+.with-unit {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
+.with-unit > div {
+    flex-grow: 3;
+}
+
+.with-unit .bp3-input {
+    width: auto;
+}
+
+.with-unit > abbr {
+    margin-left: 10px;
+    flex-grow: 1;
+}
+
+.options-form {
+    padding-right: 1em;
+    max-height: 80vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.options-form label {
+    width: 230px;
+    text-align: right;
+}
