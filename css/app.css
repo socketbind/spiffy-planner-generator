@@ -37,7 +37,6 @@ section.page-container {
 aside {
     flex: 0 0 500px;
     padding: 1em;
-    color: #888888;
 }
 
 aside .bp3-card {
@@ -64,6 +63,7 @@ aside .bp3-card {
 }
 
 .options-form {
+    color: #888888;
     padding-right: 1em;
     max-height: 85vh;
     overflow-x: hidden;

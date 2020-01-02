@@ -31,7 +31,7 @@ export class CalendarOptions extends React.Component {
         return (
             <Card interactive={false}>
                 <section className="options-form">
-                    <H3>General</H3>
+                    <H3 className="bp3-text-muted">General</H3>
 
                     <FormGroup
                         label="Year"
@@ -57,7 +57,7 @@ export class CalendarOptions extends React.Component {
                         />
                     </FormGroup>
 
-                    <H3>Page setup</H3>
+                    <H3 className="bp3-text-muted">Page setup</H3>
 
                     <FormGroup
                         label="Preset"
@@ -120,7 +120,7 @@ export class CalendarOptions extends React.Component {
                         <abbr>mm</abbr>
                     </FormGroup>
 
-                    <H3>Typography</H3>
+                    <H3 className="bp3-text-muted">Typography</H3>
 
                     <FormGroup
                         label="Month font"
@@ -226,7 +226,7 @@ export class CalendarOptions extends React.Component {
                         />
                     </FormGroup>
 
-                    <H3>Dimensions</H3>
+                    <H3 className="bp3-text-muted">Dimensions</H3>
                     <FormGroup
                         label="Content start"
                         labelFor="dimensions-content-start"
@@ -325,7 +325,7 @@ export class CalendarOptions extends React.Component {
                         <abbr>mm</abbr>
                     </FormGroup>
 
-                    <H3>Color</H3>
+                    <H3 className="bp3-text-muted">Color</H3>
 
                     <FormGroup
                         label="Header background color"
