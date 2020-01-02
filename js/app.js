@@ -712,22 +712,6 @@ class App extends React.Component {
         FileSaver.saveAs(svgBlob, `planner-${year}-${month}.svg`);
     }
 
-    savePdf() {
-        const year = this.state.params.year || 'unknown';
-        const month = this.state.params.month || 'unknown';
-
-        const svgElement = document.getElementById('page-svg');
-        const pdf = new jsPDF('p', 'mm', [210, 297]);
-
-        svg2pdf(svgElement, pdf, {
-            xOffset: 0,
-            yOffset: 0,
-            scale: 1
-        });
-
-        pdf.save(`planner-${year}-${month}.pdf`);
-    }
-
     render() {
         return (
             <main>
@@ -741,12 +725,7 @@ class App extends React.Component {
                             <Navbar.Divider />
                             <Button className="bp3-minimal" icon="reset" text="Reset" onClick={(_) => this.setState({ params: this.defaults })} />
                             <Button className="bp3-minimal" icon="print" text="Print" onClick={(_) => window.print()} />
-                            <Menu>
-                                <MenuItem text="Save" icon="floppy-disk" popoverProps={{ position: 'bottom-left' }}>
-                                    <MenuItem text="SVG" onClick={() => this.saveSvg()}/>
-                                    <MenuItem text="PDF" onClick={() => this.savePdf()}/>
-                                </MenuItem>
-                            </Menu>
+                            <Button className="bp3-minimal" icon="floppy-disk" text="Save SVG" onClick={(_) => this.saveSvg()} />
                         </Navbar.Group>
                     </Navbar>
 
