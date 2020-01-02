@@ -1,5 +1,18 @@
 import React from "react";
-import {Button, Card, Classes, ControlGroup, Dialog, InputGroup, Spinner, Tab, Tabs, Text, NonIdealState, FileInput} from "@blueprintjs/core";
+import {
+    Button,
+    Card,
+    Classes,
+    ControlGroup,
+    Dialog,
+    InputGroup,
+    Spinner,
+    Tab,
+    Tabs,
+    Text,
+    NonIdealState,
+    FileInput
+} from "@blueprintjs/core";
 
 import SAMPLE_DATA from './sample_unsplash';
 
@@ -11,7 +24,7 @@ class UnsplashImageResult extends React.Component {
                 e.preventDefault();
                 this.props.onImageClicked && this.props.onImageClicked(this.props.item);
             }}>
-                <img src={this.props.item.urls.thumb} />
+                <img src={this.props.item.urls.thumb}/>
             </a>
         );
     }
@@ -38,7 +51,7 @@ class UnsplashPanel extends React.Component {
         const query = this.state.query && this.state.query.trim();
 
         if (query !== "") {
-            this.setState({ ...this.state, query });
+            this.setState({...this.state, query});
 
             this.initiateQuery();
         }
@@ -52,7 +65,7 @@ class UnsplashPanel extends React.Component {
 
         this.fetchControl = new AbortController();
 
-        fetch(url, { signal: this.fetchControl.signal })
+        fetch(url, {signal: this.fetchControl.signal})
             .then(r => r.json())
             .then(results => {
                 this.setState({...this.state, loading: false, results});
@@ -88,7 +101,7 @@ class UnsplashPanel extends React.Component {
     render() {
         const controlsDisabled = !this.state.results || this.state.results.total_pages <= 1;
         const prevDisabled = controlsDisabled || this.state.page === 1;
-        const nextDisabled = controlsDisabled || this.state.page === this.state.results.total_pages ;
+        const nextDisabled = controlsDisabled || this.state.page === this.state.results.total_pages;
 
         return (<>
             <ControlGroup className="unsplash-query">
@@ -115,7 +128,8 @@ class UnsplashPanel extends React.Component {
                 />
             </ControlGroup>
             {(this.state.results &&
-                <p>Showing page {this.state.page} of {this.state.results.total_pages} with {this.state.results.total} results</p>)}
+                <p>Showing
+                    page {this.state.page} of {this.state.results.total_pages} with {this.state.results.total} results</p>)}
             <Card className="unsplash-results">
                 {(this.state.results === null && !this.state.loading) && <>Results will be shown here after you
                     enter the search term.</>}
@@ -153,9 +167,47 @@ class UnsplashPanel extends React.Component {
 }
 
 class LocalFilePanel extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {image: null};
+    }
+
+    handleChange(input) {
+        if (input.files.length > 0) {
+            const file = input.files[0];
+
+            if (!file.type.startsWith('image/')) return;
+
+            this.state.image && window.URL.revokeObjectURL(this.state.image);
+
+            this.setState({...this.state, image: window.URL.createObjectURL(file)})
+        }
+    }
+
+    useThisImage() {
+        this.props.onImageReady && this.props.onImageReady(this.state.image);
+    }
+
     render() {
         return (
-            <FileInput text="Choose file..." onInputChange={_ => {}} />
+            <>
+                <FileInput
+                    text="Choose file..."
+                    fill={true}
+                    onInputChange={e => {
+                        this.handleChange(e.target)
+                    }}
+                    inputProps={{accept: "image/*"}}
+                />
+                <Card interactive={false} className="local-image-file-preview">
+                    {this.state.image && <>
+                        <img src={this.state.image} style={{'width': '100%'}}/>
+                        <Button text="Use this image" intent="primary" onClick={() => this.useThisImage()} />
+                    </>
+                    }
+                </Card>
+            </>
         );
     }
 }
@@ -165,11 +217,11 @@ export class BackgroundChooser extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = { isOpen: true };
+        this.state = {isOpen: true};
     }
 
     handleImageReady(url) {
-        this.setState({ ...this.state, isOpen: false });
+        this.setState({...this.state, isOpen: false});
 
         console.log("Final url:");
         console.log(url);
@@ -186,8 +238,10 @@ export class BackgroundChooser extends React.Component {
             >
                 <div className={Classes.DIALOG_BODY}>
                     <Tabs animate={true} renderActiveTabPanelOnly={true}>
-                        <Tab id="unsplash" title="Unsplash" panel={<UnsplashPanel onImageReady={ imageUrl => this.handleImageReady(imageUrl) } />}/>
-                        <Tab id="local" title="Local file" panel={<LocalFilePanel onImageReady={ imageUrl => this.handleImageReady(imageUrl) } />}/>
+                        <Tab id="unsplash" title="Unsplash"
+                             panel={<UnsplashPanel onImageReady={imageUrl => this.handleImageReady(imageUrl)}/>}/>
+                        <Tab id="local" title="Local file"
+                             panel={<LocalFilePanel onImageReady={imageUrl => this.handleImageReady(imageUrl)}/>}/>
                     </Tabs>
                 </div>
                 <div className={Classes.DIALOG_FOOTER}>

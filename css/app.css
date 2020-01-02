@@ -123,3 +123,8 @@ aside .bp3-card {
 .background-dialog {
     width: 50vw;
 }
+
+.local-image-file-preview {
+    margin: 1em 0;
+    text-align: center;
+}
