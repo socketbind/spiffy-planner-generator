@@ -112,7 +112,7 @@ class App extends React.Component {
     }
 
     saveNewParams(params) {
-        this.setState({ ...this.state, params })
+        this.setState({ params })
         if (window.localStorage) {
             window.localStorage.setItem('params', JSON.stringify(params));
         }

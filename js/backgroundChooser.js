@@ -51,14 +51,14 @@ class UnsplashPanel extends React.Component {
         const query = this.state.query && this.state.query.trim();
 
         if (query !== "") {
-            this.setState({...this.state, query});
+            this.setState({query});
 
             this.initiateQuery();
         }
     }
 
     initiateQuery() {
-        this.setState({...this.state, loading: true, error: false});
+        this.setState({loading: true, error: false});
 
         const clientId = "e10e2b90ea0bb68261bb1c49ec92d930aa8a60d1e9a502e294ba40159857593e";
         const url = `https://api.unsplash.com/search/photos?page=${this.state.page}&query=${encodeURIComponent(this.state.query)}&client_id=${clientId}`;
@@ -68,10 +68,10 @@ class UnsplashPanel extends React.Component {
         fetch(url, {signal: this.fetchControl.signal})
             .then(r => r.json())
             .then(results => {
-                this.setState({...this.state, loading: false, results});
+                this.setState({loading: false, results});
             })
             .catch(reason => {
-                this.setState({...this.state, loading: false, error: true});
+                this.setState({loading: false, error: true});
             })
             .finally(() => {
                 this.fetchControl = null;
@@ -84,7 +84,7 @@ class UnsplashPanel extends React.Component {
 
     handlePrevClicked() {
         if (this.state.page > 1) {
-            this.setState({...this.state, page: this.state.page - 1}, () => {
+            this.setState({page: this.state.page - 1}, () => {
                 this.initiateQuery();
             });
         }
@@ -92,7 +92,7 @@ class UnsplashPanel extends React.Component {
 
     handleNextClicked() {
         if (this.state.page < this.state.results.total_pages) {
-            this.setState({...this.state, page: this.state.page + 1}, () => {
+            this.setState({page: this.state.page + 1}, () => {
                 this.initiateQuery();
             });
         }
@@ -114,7 +114,7 @@ class UnsplashPanel extends React.Component {
                         if (e.key === 'Enter') this.handleSubmission()
                     }}
                     value={this.state.query}
-                    onChange={event => this.setState({...this.state, query: event.target.value})}
+                    onChange={event => this.setState({query: event.target.value})}
                 />
                 <Button
                     icon="arrow-left"
@@ -181,7 +181,7 @@ class LocalFilePanel extends React.Component {
 
             this.state.image && window.URL.revokeObjectURL(this.state.image);
 
-            this.setState({...this.state, image: window.URL.createObjectURL(file)})
+            this.setState({image: window.URL.createObjectURL(file)})
         }
     }
 
@@ -227,7 +227,7 @@ export class BackgroundChooser extends React.Component {
     }
 
     handleImageReady(url) {
-        this.setState({...this.state, isOpen: false});
+        this.setState({isOpen: false});
 
         console.log("Final url:");
         console.log(url);

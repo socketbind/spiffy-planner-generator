@@ -16,14 +16,14 @@ export class CalendarOptions extends React.Component {
     }
 
     handleValueChange(propName, value) {
-        const newState = {...this.state, params: { ...this.state.params }};
+        const newState = {params: { arams }};
         newState.params[propName] = value;
         this.setState(newState);
         this.props.onParametersChanged && this.props.onParametersChanged(newState.params);
     }
 
     handleValueChanges(values) {
-        const newState = {...this.state, params: { ...this.state.params, ...values }};
+        const newState = {params: { arams, ...values }};
         this.setState(newState);
         this.props.onParametersChanged && this.props.onParametersChanged(newState.params);
     }
@@ -66,7 +66,7 @@ export class CalendarOptions extends React.Component {
                         <Button
                             id="general-background"
                             text="Pick custom background"
-                            onClick={_ => this.setState({ ...this.state, backgroundChooserOpen: true })}
+                            onClick={_ => this.setState({ backgroundChooserOpen: true })}
                         />
 
                         <BackgroundChooser
