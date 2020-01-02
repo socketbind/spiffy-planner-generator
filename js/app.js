@@ -3,9 +3,6 @@ import "regenerator-runtime/runtime";
 import { SVG, Element, extend, Text } from '@svgdotjs/svg.js'
 import FileSaver from 'file-saver';
 
-import jsPDF from './vendor/jspdf.debug';
-import svg2pdf from './vendor/svg2pdf';
-
 import React, {Fragment} from 'react';
 import ReactDOM from 'react-dom';
 import {
