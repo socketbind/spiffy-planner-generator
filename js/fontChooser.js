@@ -7,7 +7,13 @@ export class FontChooser extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {font: props.initialFont || props.fonts[0]};
+        this.state = {font: props.font || props.fonts[0]};
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.font !== prevProps.font) {
+            this.setState({ font: this.props.font });
+        }
     }
 
     render() {

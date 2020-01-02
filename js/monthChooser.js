@@ -20,7 +20,21 @@ export class MonthChooser extends React.Component {
             );
         }
 
-        this.state = {month: (props.initialMonth && this.months.find(item => item.ordinal === props.initialMonth)) || this.months[0]};
+        this.state = {month: this.coerceMonthProperty(props.month)};
+    }
+
+    coerceMonthProperty(monthValue) {
+        return (monthValue && this.monthForOrdinal(monthValue)) || this.months[0];
+    }
+
+    monthForOrdinal(ordinal) {
+        return this.months.find(item => item.ordinal === ordinal);
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.month !== prevProps.month) {
+            this.setState({ month: this.coerceMonthProperty(this.props.month) });
+        }
     }
 
     render() {

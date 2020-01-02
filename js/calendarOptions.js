@@ -15,16 +15,22 @@ export class CalendarOptions extends React.Component {
         this.state = { params: props.params || {}, backgroundChooserOpen: false };
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.params !== prevProps.params) {
+            this.setState({ params: this.props.params });
+        }
+    }
+
     handleValueChange(propName, value) {
-        const newState = {params: { arams }};
+        const newState = {params: { ...this.state.params }};
         newState.params[propName] = value;
         this.setState(newState);
         this.props.onParametersChanged && this.props.onParametersChanged(newState.params);
     }
 
     handleValueChanges(values) {
-        const newState = {params: { arams, ...values }};
-        this.setState(newState);
+        const newState = {params: { ...this.state.params, ...values }};
+        this.setState(values);
         this.props.onParametersChanged && this.props.onParametersChanged(newState.params);
     }
 
@@ -53,7 +59,7 @@ export class CalendarOptions extends React.Component {
                     >
                         <MonthChooser
                             id="general-month"
-                            initialMonth={this.state.params.month}
+                            month={this.state.params.month}
                             onMonthChanged={(month) => this.handleValueChange('month', month)}
                         />
                     </FormGroup>
@@ -148,7 +154,7 @@ export class CalendarOptions extends React.Component {
                             id="typography-month-font"
                             fonts={this.availableFonts}
                             onFontSelected={(monthFontFamily) => this.handleValueChange('monthFontFamily', monthFontFamily)}
-                            initialFont={this.state.params.monthFontFamily}
+                            font={this.state.params.monthFontFamily}
                         />
                     </FormGroup>
 
@@ -173,7 +179,7 @@ export class CalendarOptions extends React.Component {
                     >
                         <ColorChooser
                             id="typography-month-font-color"
-                            initialColor={this.state.params.monthFontColor}
+                            color={this.state.params.monthFontColor}
                             onColorChanged={(monthFontColor) => this.handleValueChange('monthFontColor', monthFontColor)}
                         />
                     </FormGroup>
@@ -199,7 +205,7 @@ export class CalendarOptions extends React.Component {
                     >
                         <ColorChooser
                             id="typography-header-font-color"
-                            initialColor={this.state.params.headerFontColor}
+                            color={this.state.params.headerFontColor}
                             onColorChanged={(headerFontColor) => this.handleValueChange('headerFontColor', headerFontColor)}
                         />
                     </FormGroup>
@@ -213,7 +219,7 @@ export class CalendarOptions extends React.Component {
                             id="typography-content-font"
                             fonts={this.availableFonts}
                             onFontSelected={(contentFontFamily) => this.handleValueChange('contentFontFamily', contentFontFamily)}
-                            initialFont={this.state.params.contentFontFamily}
+                            font={this.state.params.contentFontFamily}
                         />
                     </FormGroup>
 
@@ -238,7 +244,7 @@ export class CalendarOptions extends React.Component {
                     >
                         <ColorChooser
                             id="typography-content-font-color"
-                            initialColor={this.state.params.contentFontColor}
+                            color={this.state.params.contentFontColor}
                             onColorChanged={(contentFontColor) => this.handleValueChange('contentFontColor', contentFontColor)}
                         />
                     </FormGroup>
@@ -351,7 +357,7 @@ export class CalendarOptions extends React.Component {
                     >
                         <ColorChooser
                             id="color-header-background"
-                            initialColor={this.state.params.headerBackground}
+                            color={this.state.params.headerBackground}
                             onColorChanged={(headerBackground) => this.handleValueChange('headerBackground', headerBackground)}
                         />
                     </FormGroup>
@@ -363,7 +369,7 @@ export class CalendarOptions extends React.Component {
                     >
                         <ColorChooser
                             id="color-line"
-                            initialColor={this.state.params.lineColor}
+                            color={this.state.params.lineColor}
                             onColorChanged={(lineColor) => this.handleValueChange('lineColor', lineColor)}
                         />
                     </FormGroup>

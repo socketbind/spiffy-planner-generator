@@ -14,8 +14,6 @@ import {
     FileInput
 } from "@blueprintjs/core";
 
-import SAMPLE_DATA from './sample_unsplash';
-
 class UnsplashImageResult extends React.Component {
 
     render() {

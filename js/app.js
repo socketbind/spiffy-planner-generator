@@ -9,8 +9,6 @@ import {Alignment, Button, Classes, Navbar} from "@blueprintjs/core";
 import {CalendarOptions} from "./calendarOptions";
 import {CalendarRenderer} from "./calendarRenderer";
 
-import {BackgroundChooser} from "./backgroundChooser";
-
 const AVAILABLE_FONTS = ['Archivo Black',
     'Bangers',
     'Calistoga',

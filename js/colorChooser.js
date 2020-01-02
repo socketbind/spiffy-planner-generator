@@ -7,7 +7,13 @@ export class ColorChooser extends React.Component {
     constructor(props) {
         super(props)
 
-        this.state = {color: props.initialColor || '#333'}
+        this.state = {color: props.color || '#333'}
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.color !== prevProps.color) {
+            this.setState({ color: this.props.color })
+        }
     }
 
     render() {
