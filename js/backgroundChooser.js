@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Card, Classes, ControlGroup, Dialog, InputGroup, Spinner, Tab, Tabs, Text, NonIdealState} from "@blueprintjs/core";
+import {Button, Card, Classes, ControlGroup, Dialog, InputGroup, Spinner, Tab, Tabs, Text, NonIdealState, FileInput} from "@blueprintjs/core";
 
 import SAMPLE_DATA from './sample_unsplash';
 
@@ -104,31 +104,18 @@ class UnsplashPanel extends React.Component {
                     onChange={event => this.setState({...this.state, query: event.target.value})}
                 />
                 <Button
-                    icon="search"
-                    onClick={_ => this.handleSubmission()}
-                    disabled={this.state.loading}
+                    icon="arrow-left"
+                    disabled={prevDisabled}
+                    onClick={_ => this.handlePrevClicked()}
+                />
+                <Button
+                    icon="arrow-right"
+                    disabled={nextDisabled}
+                    onClick={_ => this.handleNextClicked()}
                 />
             </ControlGroup>
-            <div className="unsplash-status">
-                <div className="message">
-                    {(this.state.results &&
-                        <>Showing page {this.state.page} of {this.state.results.total_pages} with {this.state.results.total} results</>)}
-                </div>
-                <div className="controls">
-                    <ControlGroup>
-                        <Button
-                            icon="arrow-left"
-                            disabled={prevDisabled}
-                            onClick={_ => this.handlePrevClicked()}
-                        />
-                        <Button
-                            icon="arrow-right"
-                            disabled={nextDisabled}
-                            onClick={_ => this.handleNextClicked()}
-                        />
-                    </ControlGroup>
-                </div>
-            </div>
+            {(this.state.results &&
+                <p>Showing page {this.state.page} of {this.state.results.total_pages} with {this.state.results.total} results</p>)}
             <Card className="unsplash-results">
                 {(this.state.results === null && !this.state.loading) && <>Results will be shown here after you
                     enter the search term.</>}
@@ -168,9 +155,7 @@ class UnsplashPanel extends React.Component {
 class LocalFilePanel extends React.Component {
     render() {
         return (
-            <div>
-                Local file panel
-            </div>
+            <FileInput text="Choose file..." onInputChange={_ => {}} />
         );
     }
 }

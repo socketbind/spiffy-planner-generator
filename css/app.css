@@ -95,15 +95,8 @@ aside .bp3-card {
     }
 }
 
-.unsplash-status {
-    display: flex;
-    align-items: center;
-    padding: 1em 0;
-}
-
-.unsplash-status .message {
-    flex-grow: 1;
-    padding: 1em 0;
+.unsplash-query {
+    margin: 1em 0;
 }
 
 .unsplash-results {
