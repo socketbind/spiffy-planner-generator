@@ -1,5 +1,8 @@
+@import "./fonts.css";
+
 @import "~/node_modules/normalize.css/normalize.css";
 @import "~/node_modules/@blueprintjs/core/lib/css/blueprint.css";
+
 
 body {
     background: #CED9E0;
@@ -67,7 +70,27 @@ aside .bp3-card {
     overflow-y: scroll;
 }
 
-.options-form label {
+.options-form .bp3-form-group label {
     width: 230px;
     text-align: right;
+}
+
+.color-square {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 0.5em;
+    border: 1px solid #5C7080;
+    width: 1em;
+    height: 1em;
+}
+
+@media screen and (orientation: portrait) {
+    main {
+        flex-direction: column;
+    }
+
+    .options-form {
+        max-height: none;
+        overflow: auto;
+    }
 }
