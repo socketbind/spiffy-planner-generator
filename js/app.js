@@ -129,7 +129,7 @@ class App extends React.Component {
                         <Navbar.Group align={Alignment.LEFT}>
                             <Navbar.Heading>Spiffy Calendar Generator</Navbar.Heading>
                             <Navbar.Divider />
-                            <Button className={Classes.MINIMAL} icon="reset" text="Reset" onClick={(_) => this.setState({ params: this.defaults })} />
+                            <Button className={Classes.MINIMAL} icon="reset" text="Reset" onClick={(_) => this.saveNewParams(this.defaults)} />
                             <Button className={Classes.MINIMAL} icon="print" text="Print" onClick={(_) => window.print()} />
                             <Button className={Classes.MINIMAL} icon="floppy-disk" text="Save SVG" onClick={(_) => this.saveSvg()} />
                         </Navbar.Group>
@@ -141,7 +141,6 @@ class App extends React.Component {
                         onParametersChanged={params => this.saveNewParams(params)}
                     />
                 </aside>
-                <BackgroundChooser />
             </main>
         )
     }

@@ -217,7 +217,13 @@ export class BackgroundChooser extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {isOpen: true};
+        this.state = {isOpen: props.isOpen || false };
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.isOpen !== prevProps.isOpen) {
+            this.setState({ isOpen: this.props.isOpen });
+        }
     }
 
     handleImageReady(url) {

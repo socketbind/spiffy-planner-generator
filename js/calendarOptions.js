@@ -4,6 +4,7 @@ import {MonthChooser} from "./monthChooser";
 import {Select} from "@blueprintjs/select";
 import {FontChooser} from "./fontChooser";
 import {ColorChooser} from "./colorChooser";
+import {BackgroundChooser} from "./backgroundChooser";
 
 export class CalendarOptions extends React.Component {
 
@@ -11,20 +12,20 @@ export class CalendarOptions extends React.Component {
         super(props);
 
         this.availableFonts = props.availableFonts || ['Arial'];
-        this.state = Object.assign({}, props.params || {});
+        this.state = { params: props.params || {}, backgroundChooserOpen: false };
     }
 
     handleValueChange(propName, value) {
-        const newState = {...this.state};
-        newState[propName] = value;
+        const newState = {...this.state, params: { ...this.state.params }};
+        newState.params[propName] = value;
         this.setState(newState);
-        this.props.onParametersChanged && this.props.onParametersChanged(newState);
+        this.props.onParametersChanged && this.props.onParametersChanged(newState.params);
     }
 
     handleValueChanges(values) {
-        const newState = {...this.state, ...values};
+        const newState = {...this.state, params: { ...this.state.params, ...values }};
         this.setState(newState);
-        this.props.onParametersChanged && this.props.onParametersChanged(newState);
+        this.props.onParametersChanged && this.props.onParametersChanged(newState.params);
     }
 
     render() {
@@ -40,7 +41,7 @@ export class CalendarOptions extends React.Component {
                     >
                         <NumericInput
                             id="general-year"
-                            value={this.state.year}
+                            value={this.state.params.year}
                             onValueChange={(year, _) => this.handleValueChange('year', year)}
                             placeholder="Enter a year..."/>
                     </FormGroup>
@@ -52,8 +53,24 @@ export class CalendarOptions extends React.Component {
                     >
                         <MonthChooser
                             id="general-month"
-                            initialMonth={this.state.month}
+                            initialMonth={this.state.params.month}
                             onMonthChanged={(month) => this.handleValueChange('month', month)}
+                        />
+                    </FormGroup>
+
+                    <FormGroup
+                        label="Background"
+                        labelFor="general-background"
+                        inline={true}
+                    >
+                        <Button
+                            id="general-background"
+                            text="Pick custom background"
+                            onClick={_ => this.setState({ ...this.state, backgroundChooserOpen: true })}
+                        />
+
+                        <BackgroundChooser
+                            isOpen={this.state.backgroundChooserOpen}
                         />
                     </FormGroup>
 
@@ -100,7 +117,7 @@ export class CalendarOptions extends React.Component {
                     >
                         <NumericInput
                             id="page-setup-width"
-                            value={this.state.pageWidth}
+                            value={this.state.params.pageWidth}
                             onValueChange={(pageWidth, _) => this.handleValueChange('pageWidth', pageWidth)}
                         />
                         <abbr>mm</abbr>
@@ -114,7 +131,7 @@ export class CalendarOptions extends React.Component {
                     >
                         <NumericInput
                             id="page-setup-height"
-                            value={this.state.pageHeight}
+                            value={this.state.params.pageHeight}
                             onValueChange={(pageHeight, _) => this.handleValueChange('pageHeight', pageHeight)}
                         />
                         <abbr>mm</abbr>
@@ -131,7 +148,7 @@ export class CalendarOptions extends React.Component {
                             id="typography-month-font"
                             fonts={this.availableFonts}
                             onFontSelected={(monthFontFamily) => this.handleValueChange('monthFontFamily', monthFontFamily)}
-                            initialFont={this.state.monthFontFamily}
+                            initialFont={this.state.params.monthFontFamily}
                         />
                     </FormGroup>
 
@@ -143,7 +160,7 @@ export class CalendarOptions extends React.Component {
                     >
                         <NumericInput
                             id="typography-month-font-size"
-                            value={this.state.monthFontSize}
+                            value={this.state.params.monthFontSize}
                             onValueChange={(monthFontSize, _) => this.handleValueChange('monthFontSize', monthFontSize)}
                         />
                         <abbr>mm</abbr>
@@ -156,7 +173,7 @@ export class CalendarOptions extends React.Component {
                     >
                         <ColorChooser
                             id="typography-month-font-color"
-                            initialColor={this.state.monthFontColor}
+                            initialColor={this.state.params.monthFontColor}
                             onColorChanged={(monthFontColor) => this.handleValueChange('monthFontColor', monthFontColor)}
                         />
                     </FormGroup>
@@ -169,7 +186,7 @@ export class CalendarOptions extends React.Component {
                     >
                         <NumericInput
                             id="typography-header-font-size"
-                            value={this.state.headerFontSize}
+                            value={this.state.params.headerFontSize}
                             onValueChange={(headerFontSize, _) => this.handleValueChange('headerFontSize', headerFontSize)}
                         />
                         <abbr>mm</abbr>
@@ -182,7 +199,7 @@ export class CalendarOptions extends React.Component {
                     >
                         <ColorChooser
                             id="typography-header-font-color"
-                            initialColor={this.state.headerFontColor}
+                            initialColor={this.state.params.headerFontColor}
                             onColorChanged={(headerFontColor) => this.handleValueChange('headerFontColor', headerFontColor)}
                         />
                     </FormGroup>
@@ -196,7 +213,7 @@ export class CalendarOptions extends React.Component {
                             id="typography-content-font"
                             fonts={this.availableFonts}
                             onFontSelected={(contentFontFamily) => this.handleValueChange('contentFontFamily', contentFontFamily)}
-                            initialFont={this.state.contentFontFamily}
+                            initialFont={this.state.params.contentFontFamily}
                         />
                     </FormGroup>
 
@@ -208,7 +225,7 @@ export class CalendarOptions extends React.Component {
                     >
                         <NumericInput
                             id="typography-content-font-size"
-                            value={this.state.contentFontSize}
+                            value={this.state.params.contentFontSize}
                             onValueChange={(contentFontSize, _) => this.handleValueChange('contentFontSize', contentFontSize)}
                         />
                         <abbr>mm</abbr>
@@ -221,7 +238,7 @@ export class CalendarOptions extends React.Component {
                     >
                         <ColorChooser
                             id="typography-content-font-color"
-                            initialColor={this.state.contentFontColor}
+                            initialColor={this.state.params.contentFontColor}
                             onColorChanged={(contentFontColor) => this.handleValueChange('contentFontColor', contentFontColor)}
                         />
                     </FormGroup>
@@ -235,7 +252,7 @@ export class CalendarOptions extends React.Component {
                     >
                         <NumericInput
                             id="dimensions-content-start"
-                            value={this.state.contentStart}
+                            value={this.state.params.contentStart}
                             onValueChange={(contentStart, _) => this.handleValueChange('contentStart', contentStart)}
                         />
                         <abbr>mm</abbr>
@@ -249,7 +266,7 @@ export class CalendarOptions extends React.Component {
                     >
                         <NumericInput
                             id="dimensions-content-horizontal-margin"
-                            value={this.state.contentHorizontalMargin}
+                            value={this.state.params.contentHorizontalMargin}
                             onValueChange={(contentHorizontalMargin, _) => this.handleValueChange('contentHorizontalMargin', contentHorizontalMargin)}
                         />
                         <abbr>mm</abbr>
@@ -263,7 +280,7 @@ export class CalendarOptions extends React.Component {
                     >
                         <NumericInput
                             id="dimensions-day-number-start"
-                            value={this.state.dayNumberStart}
+                            value={this.state.params.dayNumberStart}
                             onValueChange={(dayNumberStart, _) => this.handleValueChange('dayNumberStart', dayNumberStart)}
                         />
                         <abbr>mm</abbr>
@@ -277,7 +294,7 @@ export class CalendarOptions extends React.Component {
                     >
                         <NumericInput
                             id="dimensions-day-name-start"
-                            value={this.state.dayNameStart}
+                            value={this.state.params.dayNameStart}
                             onValueChange={(dayNameStart, _) => this.handleValueChange('dayNameStart', dayNameStart)}
                         />
                         <abbr>mm</abbr>
@@ -291,7 +308,7 @@ export class CalendarOptions extends React.Component {
                     >
                         <NumericInput
                             id="dimensions-day-lines-start"
-                            value={this.state.dayLinesStart}
+                            value={this.state.params.dayLinesStart}
                             onValueChange={(dayLinesStart, _) => this.handleValueChange('dayLinesStart', dayLinesStart)}
                         />
                         <abbr>mm</abbr>
@@ -305,7 +322,7 @@ export class CalendarOptions extends React.Component {
                     >
                         <NumericInput
                             id="dimensions-day-vertical-padding"
-                            value={this.state.dayVerticalPadding}
+                            value={this.state.params.dayVerticalPadding}
                             onValueChange={(dayVerticalPadding, _) => this.handleValueChange('dayVerticalPadding', dayVerticalPadding)}
                         />
                         <abbr>mm</abbr>
@@ -319,7 +336,7 @@ export class CalendarOptions extends React.Component {
                     >
                         <NumericInput
                             id="dimensions-month-bottom-margin"
-                            value={this.state.monthBottomMargin}
+                            value={this.state.params.monthBottomMargin}
                             onValueChange={(monthBottomMargin, _) => this.handleValueChange('monthBottomMargin', monthBottomMargin)}
                         />
                         <abbr>mm</abbr>
@@ -334,7 +351,7 @@ export class CalendarOptions extends React.Component {
                     >
                         <ColorChooser
                             id="color-header-background"
-                            initialColor={this.state.headerBackground}
+                            initialColor={this.state.params.headerBackground}
                             onColorChanged={(headerBackground) => this.handleValueChange('headerBackground', headerBackground)}
                         />
                     </FormGroup>
@@ -346,7 +363,7 @@ export class CalendarOptions extends React.Component {
                     >
                         <ColorChooser
                             id="color-line"
-                            initialColor={this.state.lineColor}
+                            initialColor={this.state.params.lineColor}
                             onColorChanged={(lineColor) => this.handleValueChange('lineColor', lineColor)}
                         />
                     </FormGroup>
