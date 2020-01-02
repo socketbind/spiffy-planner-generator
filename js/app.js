@@ -5,9 +5,11 @@ import FileSaver from 'file-saver';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Alignment, Button, Navbar} from "@blueprintjs/core";
+import {Alignment, Button, Classes, Navbar} from "@blueprintjs/core";
 import {CalendarOptions} from "./calendarOptions";
 import {CalendarRenderer} from "./calendarRenderer";
+
+import {BackgroundChooser} from "./backgroundChooser";
 
 const AVAILABLE_FONTS = ['Archivo Black',
     'Bangers',
@@ -96,7 +98,9 @@ class App extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = { params: this.defaults };
+        const savedState = (window.localStorage && window.localStorage.getItem('params'));
+
+        this.state = { params: (savedState && JSON.parse(savedState)) || this.defaults };
     }
 
     saveSvg() {
@@ -105,6 +109,13 @@ class App extends React.Component {
 
         const svgBlob = new Blob([this.renderer.getSvgSource()], {type: "image/svg+xml"});
         FileSaver.saveAs(svgBlob, `planner-${year}-${month}.svg`);
+    }
+
+    saveNewParams(params) {
+        this.setState({ ...this.state, params })
+        if (window.localStorage) {
+            window.localStorage.setItem('params', JSON.stringify(params));
+        }
     }
 
     render() {
@@ -118,18 +129,19 @@ class App extends React.Component {
                         <Navbar.Group align={Alignment.LEFT}>
                             <Navbar.Heading>Spiffy Calendar Generator</Navbar.Heading>
                             <Navbar.Divider />
-                            <Button className="bp3-minimal" icon="reset" text="Reset" onClick={(_) => this.setState({ params: this.defaults })} />
-                            <Button className="bp3-minimal" icon="print" text="Print" onClick={(_) => window.print()} />
-                            <Button className="bp3-minimal" icon="floppy-disk" text="Save SVG" onClick={(_) => this.saveSvg()} />
+                            <Button className={Classes.MINIMAL} icon="reset" text="Reset" onClick={(_) => this.setState({ params: this.defaults })} />
+                            <Button className={Classes.MINIMAL} icon="print" text="Print" onClick={(_) => window.print()} />
+                            <Button className={Classes.MINIMAL} icon="floppy-disk" text="Save SVG" onClick={(_) => this.saveSvg()} />
                         </Navbar.Group>
                     </Navbar>
 
                     <CalendarOptions
                         availableFonts={AVAILABLE_FONTS}
                         params={this.state.params}
-                        onParametersChanged={(params) => this.setState({ ...this.state, params })}
+                        onParametersChanged={params => this.saveNewParams(params)}
                     />
                 </aside>
+                <BackgroundChooser />
             </main>
         )
     }
