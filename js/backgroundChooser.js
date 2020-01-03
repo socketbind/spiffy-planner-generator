@@ -212,31 +212,18 @@ class LocalFilePanel extends React.Component {
 
 export class BackgroundChooser extends React.Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {isOpen: props.isOpen || false };
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.isOpen !== prevProps.isOpen) {
-            this.setState({ isOpen: this.props.isOpen });
-        }
-    }
-
     handleImageReady(url) {
-        this.setState({isOpen: false});
-
         this.props.imageReady && this.props.imageReady(url)
+        this.handleClose()
     }
 
     render() {
         return (
             <Dialog
                 icon="media"
-                onClose={this.handleClose}
                 title="Choose background"
-                isOpen={this.state.isOpen}
+                isOpen={this.props.isOpen}
+                onClose={() => this.handleClose()}
                 className="background-dialog"
             >
                 <div className={Classes.DIALOG_BODY}>
@@ -247,14 +234,11 @@ export class BackgroundChooser extends React.Component {
                              panel={<LocalFilePanel onImageReady={imageUrl => this.handleImageReady(imageUrl)}/>}/>
                     </Tabs>
                 </div>
-                <div className={Classes.DIALOG_FOOTER}>
-                    <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-                        <Button onClick={this.handleClose}>Cancel</Button>
-                    </div>
-                </div>
             </Dialog>
         )
     }
 
-    handleClose = () => this.setState({isOpen: false});
+    handleClose() {
+        this.props.onClose && this.props.onClose()
+    }
 }
