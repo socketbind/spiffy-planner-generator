@@ -227,8 +227,7 @@ export class BackgroundChooser extends React.Component {
     handleImageReady(url) {
         this.setState({isOpen: false});
 
-        console.log("Final url:");
-        console.log(url);
+        this.props.imageReady && this.props.imageReady(url)
     }
 
     render() {

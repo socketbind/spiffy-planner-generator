@@ -53,15 +53,32 @@ export class CalendarRenderer extends React.Component {
         this.svg.size(opts.pageWidth + "mm", opts.pageHeight + "mm");
         this.svg.viewbox(0, 0, opts.pageWidth, opts.pageHeight);
 
-        const localizedMonthName = new Date(opts.year, opts.month - 1, 1, 0, 0, 0, 0).toLocaleString(window.navigator.language, {
-            month: 'long'
-        });
+        if (opts.background) {
+            this.svg.image(opts.background).attr({width: opts.pageWidth, height: null});
+
+            const gradient = this.svg.gradient('linear', add => {
+                add.attr({'gradientTransform': 'rotate(90)'})
+                add.stop(0, '#fff', 0.0);
+                add.stop(0.5, '#fff', 1.0);
+            });
+
+            const gradientStart = opts.contentStart / 2;
+            const gradientHeight = (opts.pageHeight - gradientStart) / 2;
+
+            this.svg.rect(opts.pageWidth, gradientHeight)
+                .absmove(0, gradientStart)
+                .attr({ fill: gradient });
+        }
 
         const contentGroup = this.svg.group().attr({
             transform: `translate(0 ${opts.contentStart})`
         });
 
         let rowY = 0;
+
+        const localizedMonthName = new Date(opts.year, opts.month - 1, 1, 0, 0, 0, 0).toLocaleString(window.navigator.language, {
+            month: 'long'
+        });
 
         contentGroup.plain(localizedMonthName).font({
             family: opts.monthFontFamily,

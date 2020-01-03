@@ -65,6 +65,8 @@ class App extends React.Component {
         "pageWidth": 210,
         "pageHeight": 297,
 
+        "background": "https://images.unsplash.com/photo-1422207134147-65fb81f59e38?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9",
+
         "monthFontFamily": "Kaushan Script",
         "monthFontSize": 11,
         "monthFontColor": "#333",
