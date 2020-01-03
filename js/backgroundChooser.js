@@ -213,7 +213,7 @@ class LocalFilePanel extends React.Component {
 export class BackgroundChooser extends React.Component {
 
     handleImageReady(url) {
-        this.props.imageReady && this.props.imageReady(url)
+        this.props.onImageReady && this.props.onImageReady(url)
         this.handleClose()
     }
 
