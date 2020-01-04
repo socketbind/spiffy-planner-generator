@@ -54,20 +54,46 @@ export class CalendarRenderer extends React.Component {
         this.svg.viewbox(0, 0, opts.pageWidth, opts.pageHeight);
 
         if (opts.background) {
-            this.svg.image(opts.background).attr({width: opts.pageWidth, height: null});
+            const backgroundImage = this.svg.image(opts.background)
+                .attr({width: opts.pageWidth, height: null, cursor: 'move'});
+
+            const pt = this.svg.node.createSVGPoint();
+            const ctm = this.svg.node.getScreenCTM().inverse();
+
+            function cursorPoint(evt){
+                pt.x = evt.clientX; pt.y = evt.clientY;
+                return pt.matrixTransform(ctm);
+            }
+
+            let draggingBackground = false, startDragY, startImageY = 0;
+            backgroundImage.on('mousedown', (e) => {
+                e.preventDefault();
+                draggingBackground = true;
+                startDragY = cursorPoint(e);
+                startImageY = backgroundImage.attr('y') || 0;
+            });
+            backgroundImage.on('mousemove', (e) => {
+                if (draggingBackground) {
+                    e.preventDefault();
+                    const offset = cursorPoint(e).y - startDragY.y;
+                    backgroundImage.attr({ y: startImageY + offset })
+                }
+            });
+            backgroundImage.on('mouseup', (e) => {
+                e.preventDefault();
+                draggingBackground = false;
+            });
 
             const gradient = this.svg.gradient('linear', add => {
                 add.attr({'gradientTransform': 'rotate(90)'})
-                add.stop(0, '#fff', 0.0);
-                add.stop(0.5, '#fff', 1.0);
+                add.stop(0, '#fff', 1.0);
+                add.stop(0.4, '#fff', 0.0);
             });
 
-            const gradientStart = opts.contentStart / 2;
-            const gradientHeight = (opts.pageHeight - gradientStart) / 2;
-
-            this.svg.rect(opts.pageWidth, gradientHeight)
-                .absmove(0, gradientStart)
+            const maskRect = this.svg.rect(opts.pageWidth, opts.pageHeight)
                 .attr({ fill: gradient });
+
+            backgroundImage.maskWith(maskRect)
         }
 
         const contentGroup = this.svg.group().attr({
@@ -92,7 +118,7 @@ export class CalendarRenderer extends React.Component {
 
         const headerSize = opts.headerPadding * 2 + opts.headerFontSize;
 
-        const header = contentGroup.rect(opts.pageWidth, headerSize).move(0, rowY).attr({
+        contentGroup.rect(opts.pageWidth, headerSize).move(0, rowY).attr({
             "fill": opts.headerBackground
         });
 

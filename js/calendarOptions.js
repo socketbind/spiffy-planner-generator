@@ -22,8 +22,7 @@ export class CalendarOptions extends React.Component {
     }
 
     handleValueChange(propName, value) {
-        const newState = {params: { ...this.state.params }};
-        newState.params[propName] = value;
+        const newState = {params: { ...this.state.params, [propName]: value }};
         this.setState(newState);
         this.props.onParametersChanged && this.props.onParametersChanged(newState.params);
     }
