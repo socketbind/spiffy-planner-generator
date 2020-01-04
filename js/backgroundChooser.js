@@ -17,12 +17,15 @@ class UnsplashImageResult extends React.Component {
 
     render() {
         return (
-            <a className="unsplash-result" href="#" onClick={(e) => {
-                e.preventDefault();
-                this.props.onImageClicked && this.props.onImageClicked(this.props.item);
-            }}>
-                <img src={this.props.item.urls.thumb}/>
-            </a>
+            <div className="unsplash-result">
+                <a className="unsplash-result" href="#" onClick={(e) => {
+                    e.preventDefault();
+                    this.props.onImageClicked && this.props.onImageClicked(this.props.item);
+                }}>
+                    <img src={this.props.item.urls.thumb}/>
+                </a><br/>
+                Photo by <a href={this.props.item.user.links.html}>{this.props.item.user.name}</a> on <a href={this.props.item.links.html}>Unsplash</a>
+            </div>
         );
     }
 
@@ -199,7 +202,7 @@ class LocalFilePanel extends React.Component {
                 <Card interactive={false} className="local-image-file-preview">
                     {this.state.image && <>
                         <img src={this.state.image} style={{'width': '100%'}}/>
-                        <Button text="Use this image" intent="primary" onClick={() => this.useThisImage()} />
+                        <Button text="Use this image" intent="primary" onClick={() => this.useThisImage()}/>
                     </>
                     }
                 </Card>
