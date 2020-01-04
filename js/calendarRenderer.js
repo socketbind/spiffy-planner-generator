@@ -116,7 +116,7 @@ export class CalendarRenderer extends React.Component {
                             fill={params.headerBackground}/>
 
                         <g transform={`translate(${contentLeftMargin} ${rowY + params.headerPadding})`}>
-                            <text x={params.dayLinesStart + columnSize / 2}
+                            <text x={params.dayLinesStart + (columnSize + params.planLineMargin) / 2}
                                   fontFamily={params.contentFontFamily}
                                   fontSize={params.contentFontSize}
                                   textAnchor="middle"
@@ -124,7 +124,7 @@ export class CalendarRenderer extends React.Component {
                                   fill={params.contentFontColor}>
                                 HERS
                             </text>
-                            <text x={secondLinesStart + columnSize / 2}
+                            <text x={secondLinesStart + (columnSize + params.planLineMargin) / 2}
                                   fontFamily={params.contentFontFamily}
                                   fontSize={params.contentFontSize}
                                   textAnchor="middle"
@@ -132,7 +132,7 @@ export class CalendarRenderer extends React.Component {
                                   fill={params.contentFontColor}>
                                 OURS
                             </text>
-                            <text x={thirdLinesStart + columnSize / 2}
+                            <text x={thirdLinesStart + (columnSize + params.planLineMargin) / 2}
                                   fontFamily={params.contentFontFamily}
                                   fontSize={params.contentFontSize}
                                   textAnchor="middle"
@@ -167,21 +167,21 @@ export class CalendarRenderer extends React.Component {
                                     <line
                                         x1={params.dayLinesStart + params.planLineMargin}
                                         y1={baseline}
-                                        x2={params.dayLinesStart + columnSize - params.planLineMargin}
+                                        x2={params.dayLinesStart + columnSize}
                                         y2={baseline}
                                         strokeWidth={day.weekend ? 0.3 : 0.1}
                                         stroke={params.lineColor}/>
                                     <line
                                         x1={secondLinesStart + params.planLineMargin}
                                         y1={baseline}
-                                        x2={secondLinesStart + columnSize - params.planLineMargin}
+                                        x2={secondLinesStart + columnSize}
                                         y2={baseline}
                                         strokeWidth={day.weekend ? 0.3 : 0.1}
                                         stroke={params.lineColor}/>
                                     <line
                                         x1={thirdLinesStart + params.planLineMargin}
                                         y1={baseline}
-                                        x2={thirdLinesStart + columnSize - params.planLineMargin}
+                                        x2={thirdLinesStart + columnSize}
                                         y2={baseline}
                                         strokeWidth={day.weekend ? 0.3 : 0.1}
                                         stroke={params.lineColor}/>
