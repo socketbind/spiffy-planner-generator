@@ -1,6 +1,5 @@
 import "regenerator-runtime/runtime";
 
-import {Element, extend} from '@svgdotjs/svg.js'
 import FileSaver from 'file-saver';
 
 import React from 'react';
@@ -41,21 +40,6 @@ const AVAILABLE_FONTS = ['Archivo Black',
     'Stoke'
 ];
 
-extend(Element, {
-    do: function (fn, ...args) {
-        fn.call(this, ...args);
-        return this;
-    },
-    absx: function(x) {
-        this.attr({ x });
-        return this;
-    },
-    absmove: function(x, y) {
-        this.attr({ x, y });
-        return this;
-    }
-});
-
 class App extends React.Component {
 
     defaults = {
@@ -66,6 +50,7 @@ class App extends React.Component {
         "pageHeight": 297,
 
         "background": "https://images.unsplash.com/photo-1422207134147-65fb81f59e38?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9",
+        "backgroundY": -24,
 
         "monthFontFamily": "Kaushan Script",
         "monthFontSize": 11,
@@ -84,7 +69,7 @@ class App extends React.Component {
         "dayNameStart": 10,
         "dayLinesStart": 30,
 
-        "dayVerticalPadding": 1,
+        "dayVerticalPadding": 1.6,
         "planLineMargin": 8, // ignored for now
 
         "monthBottomMargin": 12,
@@ -113,6 +98,17 @@ class App extends React.Component {
 
     saveNewParams(params) {
         this.setState({ params })
+        this.persistParams(params)
+    }
+
+    updateParams(values) {
+        console.log(values);
+        const params = { ...this.state.params, ...values };
+        this.setState({ params })
+        this.persistParams(params)
+    }
+
+    persistParams(params) {
         if (window.localStorage) {
             window.localStorage.setItem('params', JSON.stringify(params));
         }
@@ -122,7 +118,14 @@ class App extends React.Component {
         return (
             <main>
                 <section className="page-container">
-                    <CalendarRenderer params={this.state.params} ref={(component) => this.renderer = component} />
+                    <CalendarRenderer
+                        params={this.state.params}
+                        ref={(component) => this.renderer = component}
+                        onBackgroundVerticalDrag={value => {
+                            this.updateParams({'backgroundY': value});
+                            this.forceUpdate();
+                        }}
+                    />
                 </section>
                 <aside>
                     <Navbar>

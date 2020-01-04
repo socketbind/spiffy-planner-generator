@@ -12,7 +12,6 @@
   "dependencies": {
     "@blueprintjs/core": "^3.22.3",
     "@blueprintjs/select": "^3.11.2",
-    "@svgdotjs/svg.js": "^3.0.16",
     "@types/react": "^16.9.17",
     "@types/react-dom": "^16.9.4",
     "autoprefixer": "^7.2.6",
