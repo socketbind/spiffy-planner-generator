@@ -87,6 +87,11 @@ class UnsplashPanel extends React.Component {
         };
 
         this.props.onImageReady && this.props.onImageReady(item.urls.raw, attribution);
+
+        const downloadUrl = `/protected/unsplash/photos/${item.id}/download`;
+
+        fetch(downloadUrl)
+            .catch(err => console.error("Unable to trigger download on Unsplash", err));
     }
 
     handlePrevClicked() {

@@ -23,4 +23,19 @@ app.get('/protected/unsplash/search/photos', async function (req, res, next) {
     }
 });
 
+app.get('/protected/unsplash/photos/:id/download', async function (req, res, next) {
+    try {
+        const unsplashKey = app.get('unsplash_key');
+        const url = `https://api.unsplash.com/photos/${req.params.id}/download&client_id=${unsplashKey}`;
+
+        const unsplashRequest = await fetch(url);
+
+        res.type(unsplashRequest.headers.get('Content-Type') || 'text/plain')
+            .status(unsplashRequest.status)
+            .send(await unsplashRequest.text());
+    } catch (error) {
+        next(error);
+    }
+});
+
 app.listen(port, () => console.log(`App listening on port ${port}!`));
