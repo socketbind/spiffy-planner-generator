@@ -30,6 +30,7 @@ section.page-container {
     width: 100%;
     height: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -131,10 +132,15 @@ aside .bp3-card {
 }
 
 .bp3-select-popover .bp3-menu {
-    max-height:300px;
-    overflow:auto
+    max-height: 300px;
+    overflow: auto
 }
 
 .app-title {
     font-family: 'Fredoka One', sans-serif;
+}
+
+.attribution {
+    margin-top: 0.5em;
+    text-align: center;
 }

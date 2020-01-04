@@ -80,10 +80,9 @@ export class CalendarRenderer extends React.Component {
                             x={params.pageWidth - 4}
                             y={4}
                             fontWeight="bold"
-                            stroke="#aaa"
-                            strokeWidth=".1"
-                            strokeOpacity=".5"
-                            fillOpacity=".5"
+                            fill="#000"
+                            stroke="#fff"
+                            strokeWidth=".3"
                             fontSize="6"
                             className="dont-print"
                             pointerEvents="none"
@@ -118,10 +117,9 @@ export class CalendarRenderer extends React.Component {
                             x={params.pageWidth - 4}
                             y={4}
                             fontWeight="bold"
-                            stroke="#aaa"
-                            strokeWidth=".1"
-                            strokeOpacity=".3"
-                            fillOpacity=".3"
+                            fill="#000"
+                            stroke="#fff"
+                            strokeWidth=".3"
                             fontSize="6"
                             className="dont-print"
                             pointerEvents="none"
@@ -200,6 +198,9 @@ export class CalendarRenderer extends React.Component {
                         strokeWidth="0.5"
                     />
                 </svg>
+                {params.attribution && <div className="attribution">
+                    Photo by <a href={params.attribution.user.profileUrl}>{params.attribution.user.name}</a> on <a href={params.attribution.photoUrl}>Unsplash</a>
+                </div>}
             </div>
         );
     }

@@ -78,7 +78,15 @@ class UnsplashPanel extends React.Component {
     }
 
     handleImageClicked(item) {
-        this.props.onImageReady && this.props.onImageReady(item.urls.raw);
+        const attribution = {
+            photoUrl: item.links.html,
+            user: {
+                name: item.user.name,
+                profileUrl: item.user.links.html
+            }
+        };
+
+        this.props.onImageReady && this.props.onImageReady(item.urls.raw, attribution);
     }
 
     handlePrevClicked() {
@@ -213,8 +221,8 @@ class LocalFilePanel extends React.Component {
 
 export class BackgroundChooser extends React.Component {
 
-    handleImageReady(url) {
-        this.props.onImageReady && this.props.onImageReady(url)
+    handleImageReady(url, attribution) {
+        this.props.onImageReady && this.props.onImageReady(url, attribution)
         this.handleClose()
     }
 
@@ -230,9 +238,9 @@ export class BackgroundChooser extends React.Component {
                 <div className={Classes.DIALOG_BODY}>
                     <Tabs animate={true} renderActiveTabPanelOnly={true}>
                         <Tab id="unsplash" title="Unsplash"
-                             panel={<UnsplashPanel onImageReady={imageUrl => this.handleImageReady(imageUrl)}/>}/>
+                             panel={<UnsplashPanel onImageReady={(imageUrl, attribution) => this.handleImageReady(imageUrl, attribution)}/>}/>
                         <Tab id="local" title="Local file"
-                             panel={<LocalFilePanel onImageReady={imageUrl => this.handleImageReady(imageUrl)}/>}/>
+                             panel={<LocalFilePanel onImageReady={imageUrl => this.handleImageReady(imageUrl, null)}/>}/>
                     </Tabs>
                 </div>
             </Dialog>

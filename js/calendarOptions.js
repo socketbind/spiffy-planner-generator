@@ -81,7 +81,7 @@ export class CalendarOptions extends React.Component {
 
                         <BackgroundChooser
                             isOpen={this.state.backgroundChooserOpen}
-                            onImageReady={imageUrl => this.handleValueChange('background', imageUrl)}
+                            onImageReady={(imageUrl, attribution) => this.handleValueChanges({background: imageUrl, attribution})}
                             onClose={() => this.setState({ backgroundChooserOpen: false })}
                         />
                     </FormGroup>

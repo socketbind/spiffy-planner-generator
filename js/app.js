@@ -80,7 +80,15 @@ class App extends React.Component {
         "headerPadding": 1.2, // not on ui for now
         "headerBackground": "#d2e4f2",
 
-        "lineColor": "#888"
+        "lineColor": "#888",
+
+        "attribution": {
+            "photoUrl": 'https://unsplash.com/photos/k0SwnevO_wk',
+            "user": {
+                "name": "Alex",
+                "profileUrl": "https://unsplash.com/@worthyofelegance"
+            }
+        }
     }
 
     constructor(props) {
@@ -159,7 +167,6 @@ class App extends React.Component {
             </main>
         )
     }
-
 }
 
 ReactDOM.render(
