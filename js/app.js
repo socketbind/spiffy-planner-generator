@@ -43,6 +43,7 @@ const AVAILABLE_FONTS = ['Archivo Black',
 class App extends React.Component {
 
     defaults = {
+        "lang": window.navigator.language,
         "year": new Date().getFullYear(),
         "month": new Date().getMonth() + 1,
 
@@ -102,7 +103,6 @@ class App extends React.Component {
     }
 
     updateParams(values) {
-        console.log(values);
         const params = { ...this.state.params, ...values };
         this.setState({ params })
         this.persistParams(params)

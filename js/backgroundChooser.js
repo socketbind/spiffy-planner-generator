@@ -5,13 +5,12 @@ import {
     Classes,
     ControlGroup,
     Dialog,
+    FileInput,
     InputGroup,
+    NonIdealState,
     Spinner,
     Tab,
-    Tabs,
-    Text,
-    NonIdealState,
-    FileInput
+    Tabs
 } from "@blueprintjs/core";
 
 class UnsplashImageResult extends React.Component {

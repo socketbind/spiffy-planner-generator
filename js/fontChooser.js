@@ -4,23 +4,12 @@ import {Button, MenuItem} from "@blueprintjs/core";
 
 export class FontChooser extends React.Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {font: props.font || props.fonts[0]};
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.font !== prevProps.font) {
-            this.setState({ font: this.props.font });
-        }
-    }
-
     render() {
         return (
             <Select id={this.props.id}
-                    activeItem={this.state.font}
+                    activeItem={this.props.font}
                     items={this.props.fonts}
+                    itemPredicate={(query, item) => item.toLowerCase().includes(query.toLowerCase()) }
                     itemRenderer={(value, {handleClick, modifiers}) => {
                         if (!modifiers.matchesPredicate) {
                             return null;
@@ -34,10 +23,9 @@ export class FontChooser extends React.Component {
                         />)
                     }}
                     onItemSelect={(item) => {
-                        this.setState({font: item});
                         this.props.onFontSelected && this.props.onFontSelected(item);
                     }}>
-                <Button text={<div style={{fontFamily: this.state.font}}>{this.state.font}</div>}
+                <Button text={<div style={{fontFamily: this.props.font}}>{this.props.font}</div>}
                         rightIcon="double-caret-vertical"/>
             </Select>
         )

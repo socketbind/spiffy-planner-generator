@@ -128,3 +128,8 @@ aside .bp3-card {
     margin: 1em 0;
     text-align: center;
 }
+
+.bp3-select-popover .bp3-menu {
+    max-height:300px;
+    overflow:auto
+}

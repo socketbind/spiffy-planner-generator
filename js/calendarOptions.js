@@ -1,10 +1,11 @@
 import React from "react";
-import {Button, Card, FormGroup, H3, MenuItem, NumericInput, Classes} from "@blueprintjs/core";
+import {Button, Card, Classes, FormGroup, H3, MenuItem, NumericInput} from "@blueprintjs/core";
 import {MonthChooser} from "./monthChooser";
 import {Select} from "@blueprintjs/select";
 import {FontChooser} from "./fontChooser";
 import {ColorChooser} from "./colorChooser";
 import {BackgroundChooser} from "./backgroundChooser";
+import {LangaugeChooser} from "./langaugeChooser";
 
 export class CalendarOptions extends React.Component {
 
@@ -40,6 +41,18 @@ export class CalendarOptions extends React.Component {
                     <H3 className={Classes.TEXT_MUTED}>General</H3>
 
                     <FormGroup
+                        label="Language"
+                        labelFor="general-lang"
+                        inline={true}
+                    >
+                        <LangaugeChooser
+                            id="general-lang"
+                            language={this.state.params.lang}
+                            onLanguageChosen={(lang) => this.handleValueChange('lang', lang)}
+                        />
+                    </FormGroup>
+
+                    <FormGroup
                         label="Year"
                         labelFor="general-year"
                         inline={true}
@@ -58,6 +71,7 @@ export class CalendarOptions extends React.Component {
                     >
                         <MonthChooser
                             id="general-month"
+                            lang={this.state.params.lang}
                             month={this.state.params.month}
                             onMonthChanged={(month) => this.handleValueChange('month', month)}
                         />

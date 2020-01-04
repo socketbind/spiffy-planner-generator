@@ -1,5 +1,6 @@
 import React, {Fragment} from "react";
 import {DraggableImage} from "./draggableImage";
+import {capitalize} from "./utils";
 
 
 export class CalendarRenderer extends React.Component {
@@ -7,9 +8,11 @@ export class CalendarRenderer extends React.Component {
     render() {
         const params = this.props.params;
 
-        const localizedMonthName = new Date(params.year, params.month - 1, 1, 0, 0, 0, 0).toLocaleString(window.navigator.language, {
+        const localizedMonthName = capitalize(new Date(
+            params.year, params.month - 1, 1, 0, 0, 0, 0
+        ).toLocaleString(params.lang, {
             month: 'long'
-        });
+        }));
 
         const headerSize = params.headerPadding * 2 + params.headerFontSize;
 
@@ -20,7 +23,7 @@ export class CalendarRenderer extends React.Component {
         const contentLeftMargin = params.contentHorizontalMargin / 2;
 
         let rowY = 0;
-        const days = this.generateDays(params.year, params.month);
+        const days = this.generateDays(params.year, params.month, params.lang);
 
         return (
             <div className="calendar-render">
@@ -150,7 +153,7 @@ export class CalendarRenderer extends React.Component {
         );
     }
 
-    generateDays(year, month) {
+    generateDays(year, month, lang) {
         const result = [];
 
         const daysInMonth = new Date(year, month - 1, 0, 0, 0, 0, 0).getDate();
@@ -158,7 +161,7 @@ export class CalendarRenderer extends React.Component {
 
         for (let ordinal = 1; ordinal <= daysInMonth; ordinal++) {
             date.setDate(ordinal);
-            const localizedName = date.toLocaleString(window.navigator.language, {
+            const localizedName = date.toLocaleString(lang, {
                 weekday: 'long'
             });
             result.push({ordinal, localizedName, weekend: date.getDay() in [0, 6]});

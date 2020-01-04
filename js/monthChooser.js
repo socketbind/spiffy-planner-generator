@@ -5,43 +5,45 @@ import {Button, MenuItem} from "@blueprintjs/core";
 export class MonthChooser extends React.Component {
 
     constructor(props) {
-        super(props)
+        super(props);
 
-        this.months = [];
-
-        const date = new Date();
-        for (let i = 0; i < 12; i++) {
-            date.setMonth(i);
-            this.months.push(
-                {
-                    ordinal: i + 1,
-                    name: date.toLocaleDateString(window.navigator.language, {month: 'long'})
-                }
-            );
-        }
-
-        this.state = {month: this.coerceMonthProperty(props.month)};
+        this.state = { months: this.generateLocalizedMonths(props.lang) };
     }
 
-    coerceMonthProperty(monthValue) {
-        return (monthValue && this.monthForOrdinal(monthValue)) || this.months[0];
+    generateLocalizedMonths(lang = window.navigator.language) {
+        const months = [];
+        const date = new Date();
+
+        for (let i = 0; i < 12; i++) {
+            date.setMonth(i);
+            months.push({
+                ordinal: i + 1,
+                name: date.toLocaleDateString(lang, {month: 'long'})
+            });
+        }
+
+        return months;
     }
 
     monthForOrdinal(ordinal) {
-        return this.months.find(item => item.ordinal === ordinal);
+        return this.state.months.find(item => item.ordinal === ordinal);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.month !== prevProps.month) {
-            this.setState({ month: this.coerceMonthProperty(this.props.month) });
+        if (this.props.lang !== prevProps.lang) {
+            this.setState({ months: this.generateLocalizedMonths(this.props.lang) })
         }
     }
 
     render() {
+        const month = this.monthForOrdinal(this.props.month);
+
         return (
             <Select id={this.props.id}
-                    activeItem={this.state.month}
-                    items={this.months}
+                    filterable={false}
+                    activeItem={month}
+                    items={this.state.months}
+                    itemPredicate={(query, item) => item.name.toLowerCase().includes(query.toLowerCase())}
                     itemRenderer={(month, {handleClick, modifiers}) => {
                         if (!modifiers.matchesPredicate) {
                             return null;
@@ -54,11 +56,9 @@ export class MonthChooser extends React.Component {
                         />)
                     }}
                     onItemSelect={(item) => {
-                        this.setState({month: item});
                         this.props.onMonthChanged && this.props.onMonthChanged(item.ordinal);
                     }}>
-                <Button text={this.state.month.name}
-                        rightIcon="double-caret-vertical"/>
+                <Button text={month.name} rightIcon="double-caret-vertical"/>
             </Select>
         )
     }
