@@ -4,6 +4,11 @@ import {capitalize} from "./utils";
 
 const DraggableImage = draggableElement('image');
 const DraggableRect = draggableElement('rect');
+const DraggablePath = draggableElement('path', (props, el) => {
+    const transform = el.getAttribute('transform');
+    const matched = transform.match(/translate\(\d+\s+([\d\.]+)\)$/)
+    return (matched && parseInt(matched[1])) || 0;
+});
 
 export class CalendarRenderer extends React.Component {
 
@@ -51,7 +56,7 @@ export class CalendarRenderer extends React.Component {
                     <defs>
                         <linearGradient gradientTransform="rotate(90)" id="SvgjsLinearGradient1000">
                             <stop stopOpacity="1" stopColor="#ffffff" offset="0"/>
-                            <stop stopOpacity="0" stopColor="#ffffff" offset="0.4"/>
+                            <stop stopOpacity="0" stopColor="#ffffff" offset={(params.backgroundGradientStopEnd + 10) / params.pageHeight}/>
                         </linearGradient>
                         <mask id="SvgjsMask1001">
                             <rect
@@ -61,6 +66,7 @@ export class CalendarRenderer extends React.Component {
                             </rect>
                         </mask>
                     </defs>
+
                     {params.background &&
                     <>
                         <DraggableImage
@@ -68,7 +74,6 @@ export class CalendarRenderer extends React.Component {
                             onVerticalDrag={(value) => this.props.onBackgroundVerticalDrag && this.props.onBackgroundVerticalDrag(value)}
                             width={params.pageWidth}
                             xlinkHref={params.background}
-                            cursor="move"
                             mask="url(#SvgjsMask1001)"
                         />
                         <text
@@ -95,9 +100,9 @@ export class CalendarRenderer extends React.Component {
                         height={params.pageHeight - params.contentStart}
                         fill="#fff"
                         opacity="0"
-                        cursor="move"
                         onVerticalDrag={value => this.props.onContentVerticalDrag && this.props.onContentVerticalDrag(value)}
                     />
+
                     <g transform={`translate(0 ${params.contentStart})`}>
                         <text fontFamily={params.monthFontFamily}
                               fontSize={params.monthFontSize}
@@ -184,6 +189,16 @@ export class CalendarRenderer extends React.Component {
                         </g>
 
                     </g>
+
+                    <DraggablePath
+                        className="dont-print"
+                        transform={`translate(0 ${params.backgroundGradientStopEnd})`}
+                        onVerticalDrag={(value) => this.props.onGradientVerticalDrag && this.props.onGradientVerticalDrag(value)}
+                        d="M 0,-5 5,0 0,5 z"
+                        fill="#f00"
+                        stroke="#fff"
+                        strokeWidth="0.5"
+                    />
                 </svg>
             </div>
         );

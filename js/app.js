@@ -53,6 +53,7 @@ class App extends React.Component {
 
         "background": "https://images.unsplash.com/photo-1422207134147-65fb81f59e38?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9",
         "backgroundY": -24,
+        "backgroundGradientStopEnd": 115,
 
         "monthFontFamily": "Kaushan Script",
         "monthFontSize": 11,
@@ -72,7 +73,7 @@ class App extends React.Component {
         "dayLinesStart": 36,
 
         "dayVerticalPadding": 1.6,
-        "planLineMargin": 8, // ignored for now
+        "planLineMargin": 8,
 
         "monthBottomMargin": 12,
 
@@ -87,7 +88,9 @@ class App extends React.Component {
 
         const savedState = (window.localStorage && window.localStorage.getItem('params'));
 
-        this.state = { params: (savedState && JSON.parse(savedState)) || this.defaults };
+        const finalState = Object.assign({}, this.defaults, (savedState && JSON.parse(savedState)) || {});
+
+        this.state = { params: finalState };
     }
 
     saveSvg() {
@@ -128,6 +131,10 @@ class App extends React.Component {
                         }}
                         onContentVerticalDrag={value => {
                             this.updateParams({'contentStart': value});
+                            this.forceUpdate();
+                        }}
+                        onGradientVerticalDrag={value => {
+                            this.updateParams({'backgroundGradientStopEnd': value});
                             this.forceUpdate();
                         }}
                     />

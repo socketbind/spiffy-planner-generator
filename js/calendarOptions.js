@@ -1,41 +1,11 @@
 import React from "react";
-import {Button, Card, Classes, FormGroup, H5, MenuItem, NumericInput, InputGroup} from "@blueprintjs/core";
+import {Button, Card, Classes, FormGroup, H5, InputGroup, NumericInput} from "@blueprintjs/core";
 import {MonthChooser} from "./monthChooser";
-import {Select} from "@blueprintjs/select";
 import {FontChooser} from "./fontChooser";
 import {ColorChooser} from "./colorChooser";
 import {BackgroundChooser} from "./backgroundChooser";
 import {LangaugeChooser} from "./langaugeChooser";
-
-export class PageSizeChooser extends React.Component {
-
-    render() {
-        return (<Select {...this.props}
-                        items={[
-                            {name: 'A5', width: 148, height: 210},
-                            {name: 'A4', width: 210, height: 297},
-                            {name: 'A3', width: 297, height: 420},
-                            {name: 'A2', width: 420, height: 594}
-                        ]}
-                        itemRenderer={(value, {handleClick, modifiers}) => {
-                            if (!modifiers.matchesPredicate) {
-                                return null;
-                            }
-                            return (<MenuItem
-                                active={modifiers.active}
-                                key={value.name}
-                                text={value.name}
-                                onClick={handleClick}
-                                label={`${value.width}x${value.height}mm`}
-                            />)
-                        }}
-                        onItemSelect={item => this.props.onSizeChosen && this.props.onSizeChosen(item)}>
-            <Button text="Use preset..."
-                    rightIcon="double-caret-vertical"/>
-        </Select>)
-    }
-
-}
+import {PageSizeChooser} from "./pageSizeChooser";
 
 export class CalendarOptions extends React.Component {
 
@@ -114,6 +84,20 @@ export class CalendarOptions extends React.Component {
                             onImageReady={imageUrl => this.handleValueChange('background', imageUrl)}
                             onClose={() => this.setState({ backgroundChooserOpen: false })}
                         />
+                    </FormGroup>
+
+                    <FormGroup
+                        label="Background gradient end"
+                        labelFor="general-background-gradient-end"
+                        inline={true}
+                        contentClassName="with-unit"
+                    >
+                        <NumericInput
+                            id="general-background-gradient-end"
+                            value={this.props.params.backgroundGradientStopEnd}
+                            onValueChange={(stopEnd, _) => this.handleValueChange('backgroundGradientStopEnd', stopEnd)}
+                        />
+                        <abbr>px</abbr>
                     </FormGroup>
 
                     <FormGroup

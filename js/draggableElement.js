@@ -1,20 +1,22 @@
 import React from "react";
+import EventEmitter from 'events';
+
+const surrogateMouseEvents = new EventEmitter();
+
+document.body.addEventListener('mousemove', e =>
+    surrogateMouseEvents.emit('mousemove', e), false
+);
+document.body.addEventListener('mouseup', e =>
+    surrogateMouseEvents.emit('mouseup', e), false
+);
 
 export function draggableElement(tagName, yQuery = (props) => props.y) {
     return class extends React.Component {
-        constructor(props) {
-            super(props);
-
-            this.dragging = false;
-            this.startDragY = 0;
-            this.startElemY = 0;
-        }
-
         componentDidMount() {
             this.updateHelperObjects();
         }
 
-        componentDidUpdate(prevProps, prevState, snapshot) {
+        componentDidUpdate() {
             this.updateHelperObjects();
         }
 
@@ -27,25 +29,34 @@ export function draggableElement(tagName, yQuery = (props) => props.y) {
         handleMouseDown(e) {
             e.preventDefault();
             if (e.button === 0) {
-                this.dragging = true;
-                this.startDragY = this.mouseEventToSvgCoordinates(e);
-                this.startElemY = yQuery(this.props, this.el) || 0;
-            }
-        }
+                const self = this;
+                let dragging = true;
+                let startDragY = this.mouseEventToSvgCoordinates(e).y;
+                let startElemY = yQuery(this.props, this.el) || 0;
 
-        handleMouseMove(e) {
-            if (this.dragging) {
-                e.preventDefault();
-                const offset = this.mouseEventToSvgCoordinates(e).y - this.startDragY.y;
-                const finalY = this.startElemY + offset;
-                this.props.onVerticalDrag && this.props.onVerticalDrag(finalY);
-            }
-        }
+                this.el.setAttribute('cursor', 'move');
 
-        handleMouseUp(e) {
-            e.preventDefault();
-            if (e.button === 0) {
-                this.dragging = false;
+                function onMouseMove(e) {
+                    if (dragging) {
+                        e.preventDefault();
+                        const offset = self.mouseEventToSvgCoordinates(e).y - startDragY;
+                        const finalY = (startElemY + offset) | 0;
+                        self.props.onVerticalDrag && self.props.onVerticalDrag(finalY);
+                    }
+                }
+
+                function onMouseUp(e) {
+                    e.preventDefault();
+
+                    dragging = false;
+                    self.el.removeAttribute('cursor');
+
+                    surrogateMouseEvents.off('mousemove', onMouseMove);
+                    surrogateMouseEvents.off('mouseup', onMouseUp);
+                }
+
+                surrogateMouseEvents.on('mousemove', onMouseMove);
+                surrogateMouseEvents.on('mouseup', onMouseUp);
             }
         }
 
@@ -63,9 +74,7 @@ export function draggableElement(tagName, yQuery = (props) => props.y) {
                 {
                     ...passThroughProps,
                     ref: el => this.el = el,
-                    onMouseDown: e => this.handleMouseDown(e),
-                    onMouseMove: e => this.handleMouseMove(e),
-                    onMouseUp: e => this.handleMouseUp(e)
+                    onMouseDown: e => this.handleMouseDown(e)
                 }
             )
         }
