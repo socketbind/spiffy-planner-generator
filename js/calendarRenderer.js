@@ -42,16 +42,28 @@ export class CalendarRenderer extends React.Component {
                             </rect>
                         </mask>
                     </defs>
-
                     {params.background &&
-                    <DraggableImage
-                        y={params.backgroundY}
-                        onVerticalDrag={(value) => this.props.onBackgroundVerticalDrag && this.props.onBackgroundVerticalDrag(value)}
-                        width={params.pageWidth}
-                        xlinkHref={params.background}
-                        cursor="move"
-                        mask="url(#SvgjsMask1001)"
-                    />
+                        <>
+                        <DraggableImage
+                            y={params.backgroundY}
+                            onVerticalDrag={(value) => this.props.onBackgroundVerticalDrag && this.props.onBackgroundVerticalDrag(value)}
+                            width={params.pageWidth}
+                            xlinkHref={params.background}
+                            cursor="move"
+                            mask="url(#SvgjsMask1001)"
+                        />
+                            <text
+                                x={params.pageWidth - 4}
+                                y={4}
+                                fillOpacity=".5"
+                                fontSize="6"
+                                className="dont-print"
+                                pointerEvents="none"
+                                textAnchor="end"
+                                dominantBaseline="hanging">
+                                Drag background to adjust
+                            </text>
+                        </>
                     }
 
                     <g transform={`translate(0 ${params.contentStart})`}>
@@ -171,7 +183,11 @@ export class CalendarRenderer extends React.Component {
     }
 
     getSvgSource() {
-        return new XMLSerializer().serializeToString(this.svg);
+        const cloned = this.svg.cloneNode(true);
+        for (const element of cloned.querySelectorAll('.dont-print')) {
+            element.remove();
+        }
+        return new XMLSerializer().serializeToString(cloned);
     }
 
 }

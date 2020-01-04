@@ -25,9 +25,11 @@ export class DraggableImage extends React.Component {
 
     handleMouseDown(e) {
         e.preventDefault();
-        this.dragging = true;
-        this.startDragY = this.mouseEventToSvgCoordinates(e);
-        this.startElemY = this.props.y || 0;
+        if (e.button === 0) {
+            this.dragging = true;
+            this.startDragY = this.mouseEventToSvgCoordinates(e);
+            this.startElemY = this.props.y || 0;
+        }
     }
 
     handleMouseMove(e) {
@@ -41,7 +43,9 @@ export class DraggableImage extends React.Component {
 
     handleMouseUp(e) {
         e.preventDefault();
-        this.dragging = false;
+        if (e.button === 0) {
+            this.dragging = false;
+        }
     }
 
     mouseEventToSvgCoordinates(evt) {
