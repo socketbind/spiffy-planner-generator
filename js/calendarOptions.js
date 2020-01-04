@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Card, Classes, FormGroup, H3, MenuItem, NumericInput} from "@blueprintjs/core";
+import {Button, Card, Classes, FormGroup, H5, MenuItem, NumericInput, InputGroup} from "@blueprintjs/core";
 import {MonthChooser} from "./monthChooser";
 import {Select} from "@blueprintjs/select";
 import {FontChooser} from "./fontChooser";
@@ -59,7 +59,7 @@ export class CalendarOptions extends React.Component {
         return (
             <Card interactive={false}>
                 <section className="options-form">
-                    <H3 className={Classes.TEXT_MUTED}>General</H3>
+                    <H5 className={Classes.TEXT_MUTED}>General</H5>
 
                     <FormGroup
                         label="Language"
@@ -116,7 +116,22 @@ export class CalendarOptions extends React.Component {
                         />
                     </FormGroup>
 
-                    <H3 className={Classes.TEXT_MUTED}>Page setup</H3>
+                    <FormGroup
+                        label="Sections"
+                        labelFor="general-sections"
+                        inline={true}
+                        helperText={<>Leave empty for single column.<br/>Separate with commas.</>}
+                    >
+                        <InputGroup
+                            id="general-sections"
+                            value={this.props.params.sections}
+                            placeholder="Section names"
+                            fill={true}
+                            onChange={(ev) => this.handleValueChange('sections', ev.target.value)}
+                        />
+                    </FormGroup>
+
+                    <H5 className={Classes.TEXT_MUTED}>Page setup</H5>
 
                     <FormGroup
                         label="Preset"
@@ -160,7 +175,7 @@ export class CalendarOptions extends React.Component {
                         <abbr>mm</abbr>
                     </FormGroup>
 
-                    <H3 className={Classes.TEXT_MUTED}>Typography</H3>
+                    <H5 className={Classes.TEXT_MUTED}>Typography</H5>
 
                     <FormGroup
                         label="Month font"
@@ -266,7 +281,7 @@ export class CalendarOptions extends React.Component {
                         />
                     </FormGroup>
 
-                    <H3 className={Classes.TEXT_MUTED}>Dimensions</H3>
+                    <H5 className={Classes.TEXT_MUTED}>Dimensions</H5>
                     <FormGroup
                         label="Content start"
                         labelFor="dimensions-content-start"
@@ -365,7 +380,7 @@ export class CalendarOptions extends React.Component {
                         <abbr>mm</abbr>
                     </FormGroup>
 
-                    <H3 className={Classes.TEXT_MUTED}>Color</H3>
+                    <H5 className={Classes.TEXT_MUTED}>Color</H5>
 
                     <FormGroup
                         label="Header background color"

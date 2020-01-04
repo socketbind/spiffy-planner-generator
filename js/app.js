@@ -46,6 +46,7 @@ class App extends React.Component {
         "lang": window.navigator.language,
         "year": new Date().getFullYear(),
         "month": new Date().getMonth() + 1,
+        "sections": "CHORE, FUN",
 
         "pageWidth": 210,
         "pageHeight": 297,
@@ -68,7 +69,7 @@ class App extends React.Component {
         "contentHorizontalMargin": 26,
         "dayNumberStart": 0.1,
         "dayNameStart": 10,
-        "dayLinesStart": 30,
+        "dayLinesStart": 36,
 
         "dayVerticalPadding": 1.6,
         "planLineMargin": 8, // ignored for now

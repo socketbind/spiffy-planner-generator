@@ -16,16 +16,33 @@ export class CalendarRenderer extends React.Component {
             month: 'long'
         }));
 
-        const headerSize = params.headerPadding * 2 + params.headerFontSize;
-
-        /* layout */
-        const columnSize = ((params.pageWidth - params.contentHorizontalMargin) - params.dayLinesStart) / 3;
-        const secondLinesStart = params.dayLinesStart + columnSize;
-        const thirdLinesStart = params.dayLinesStart + columnSize * 2;
+        /* general content */
         const contentLeftMargin = params.contentHorizontalMargin / 2;
+        const headerSize = params.headerPadding * 2 + params.headerFontSize;
 
         let rowY = 0;
         const days = this.generateDays(params.year, params.month, params.lang);
+
+        /* sections */
+        const sections = params.sections.split(',').map(item => item.trim()).filter(item => item !== '');
+        const numberOfColumns = sections.length || 1;
+
+        const columnSize = (
+            (params.pageWidth - params.contentHorizontalMargin) - params.dayLinesStart - (numberOfColumns - 1) * params.planLineMargin
+        ) / numberOfColumns;
+
+        const lineCoordinates = [];
+        let currentLineX = params.dayLinesStart;
+
+        for (let i = 0; i < numberOfColumns; i++) {
+            lineCoordinates.push({
+                x1: currentLineX,
+                x2: currentLineX + columnSize,
+                name: sections[i]
+            });
+
+            currentLineX += params.planLineMargin + columnSize;
+        }
 
         return (
             <div className="calendar-render">
@@ -98,8 +115,8 @@ export class CalendarRenderer extends React.Component {
                             fontWeight="bold"
                             stroke="#aaa"
                             strokeWidth=".1"
-                            strokeOpacity=".5"
-                            fillOpacity=".5"
+                            strokeOpacity=".3"
+                            fillOpacity=".3"
                             fontSize="6"
                             className="dont-print"
                             pointerEvents="none"
@@ -116,30 +133,18 @@ export class CalendarRenderer extends React.Component {
                             fill={params.headerBackground}/>
 
                         <g transform={`translate(${contentLeftMargin} ${rowY + params.headerPadding})`}>
-                            <text x={params.dayLinesStart + (columnSize + params.planLineMargin) / 2}
-                                  fontFamily={params.contentFontFamily}
-                                  fontSize={params.contentFontSize}
-                                  textAnchor="middle"
-                                  dominantBaseline="hanging"
-                                  fill={params.contentFontColor}>
-                                HERS
-                            </text>
-                            <text x={secondLinesStart + (columnSize + params.planLineMargin) / 2}
-                                  fontFamily={params.contentFontFamily}
-                                  fontSize={params.contentFontSize}
-                                  textAnchor="middle"
-                                  dominantBaseline="hanging"
-                                  fill={params.contentFontColor}>
-                                OURS
-                            </text>
-                            <text x={thirdLinesStart + (columnSize + params.planLineMargin) / 2}
-                                  fontFamily={params.contentFontFamily}
-                                  fontSize={params.contentFontSize}
-                                  textAnchor="middle"
-                                  dominantBaseline="hanging"
-                                  fill={params.contentFontColor}>
-                                HIS
-                            </text>
+                            {sections.length && lineCoordinates.map((item, index) =>
+                                <text
+                                    key={index}
+                                    x={item.x1 + columnSize / 2}
+                                    fontFamily={params.contentFontFamily}
+                                    fontSize={params.contentFontSize}
+                                    textAnchor="middle"
+                                    dominantBaseline="hanging"
+                                    fill={params.contentFontColor}>
+                                    {item.name}
+                                </text>
+                            )}
                         </g>
 
                         <g transform={`translate(${contentLeftMargin} ${rowY += headerSize + params.dayVerticalPadding})`}>
@@ -164,27 +169,15 @@ export class CalendarRenderer extends React.Component {
                                         {day.localizedName}
                                     </text>
 
-                                    <line
-                                        x1={params.dayLinesStart + params.planLineMargin}
-                                        y1={baseline}
-                                        x2={params.dayLinesStart + columnSize}
-                                        y2={baseline}
-                                        strokeWidth={day.weekend ? 0.3 : 0.1}
-                                        stroke={params.lineColor}/>
-                                    <line
-                                        x1={secondLinesStart + params.planLineMargin}
-                                        y1={baseline}
-                                        x2={secondLinesStart + columnSize}
-                                        y2={baseline}
-                                        strokeWidth={day.weekend ? 0.3 : 0.1}
-                                        stroke={params.lineColor}/>
-                                    <line
-                                        x1={thirdLinesStart + params.planLineMargin}
-                                        y1={baseline}
-                                        x2={thirdLinesStart + columnSize}
-                                        y2={baseline}
-                                        strokeWidth={day.weekend ? 0.3 : 0.1}
-                                        stroke={params.lineColor}/>
+                                    {lineCoordinates.map((item, index) =>
+                                        <line
+                                            key={index}
+                                            {...item}
+                                            y1={baseline}
+                                            y2={baseline}
+                                            strokeWidth={day.weekend ? 0.3 : 0.1}
+                                            stroke={params.lineColor}/>
+                                    )}
                                 </Fragment>);
                             })}
 
