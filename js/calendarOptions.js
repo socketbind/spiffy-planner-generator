@@ -110,7 +110,7 @@ export class CalendarOptions extends React.Component {
                         />
 
                         <BackgroundChooser
-                            isOpen={this.props.backgroundChooserOpen}
+                            isOpen={this.state.backgroundChooserOpen}
                             onImageReady={imageUrl => this.handleValueChange('background', imageUrl)}
                             onClose={() => this.setState({ backgroundChooserOpen: false })}
                         />

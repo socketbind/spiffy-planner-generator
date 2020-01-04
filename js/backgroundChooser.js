@@ -57,8 +57,7 @@ class UnsplashPanel extends React.Component {
     initiateQuery() {
         this.setState({loading: true, error: false});
 
-        const clientId = "e10e2b90ea0bb68261bb1c49ec92d930aa8a60d1e9a502e294ba40159857593e";
-        const url = `https://api.unsplash.com/search/photos?page=${this.state.page}&query=${encodeURIComponent(this.state.query)}&client_id=${clientId}`;
+        const url = `/protected/unsplash/search/photos?page=${this.state.page}&query=${encodeURIComponent(this.state.query)}`;
 
         this.fetchControl = new AbortController();
 
