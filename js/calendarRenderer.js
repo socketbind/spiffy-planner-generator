@@ -1,7 +1,9 @@
 import React, {Fragment} from "react";
-import {DraggableImage} from "./draggableImage";
+import {draggableElement} from "./draggableElement";
 import {capitalize} from "./utils";
 
+const DraggableImage = draggableElement('image');
+const DraggableRect = draggableElement('rect');
 
 export class CalendarRenderer extends React.Component {
 
@@ -43,7 +45,7 @@ export class CalendarRenderer extends React.Component {
                         </mask>
                     </defs>
                     {params.background &&
-                        <>
+                    <>
                         <DraggableImage
                             y={params.backgroundY}
                             onVerticalDrag={(value) => this.props.onBackgroundVerticalDrag && this.props.onBackgroundVerticalDrag(value)}
@@ -52,20 +54,33 @@ export class CalendarRenderer extends React.Component {
                             cursor="move"
                             mask="url(#SvgjsMask1001)"
                         />
-                            <text
-                                x={params.pageWidth - 4}
-                                y={4}
-                                fillOpacity=".5"
-                                fontSize="6"
-                                className="dont-print"
-                                pointerEvents="none"
-                                textAnchor="end"
-                                dominantBaseline="hanging">
-                                Drag background to adjust
-                            </text>
-                        </>
+                        <text
+                            x={params.pageWidth - 4}
+                            y={4}
+                            fontWeight="bold"
+                            stroke="#aaa"
+                            strokeWidth=".1"
+                            strokeOpacity=".5"
+                            fillOpacity=".5"
+                            fontSize="6"
+                            className="dont-print"
+                            pointerEvents="none"
+                            textAnchor="end"
+                            dominantBaseline="hanging">
+                            Drag background to adjust
+                        </text>
+                    </>
                     }
 
+                    <DraggableRect
+                        y={params.contentStart}
+                        width={params.pageWidth}
+                        height={params.pageHeight - params.contentStart}
+                        fill="#fff"
+                        opacity="0"
+                        cursor="move"
+                        onVerticalDrag={value => this.props.onContentVerticalDrag && this.props.onContentVerticalDrag(value)}
+                    />
                     <g transform={`translate(0 ${params.contentStart})`}>
                         <text fontFamily={params.monthFontFamily}
                               fontSize={params.monthFontSize}
@@ -75,6 +90,22 @@ export class CalendarRenderer extends React.Component {
                               dominantBaseline="hanging"
                               x={params.pageWidth / 2}>
                             {localizedMonthName}
+                        </text>
+
+                        <text
+                            x={params.pageWidth - 4}
+                            y={4}
+                            fontWeight="bold"
+                            stroke="#aaa"
+                            strokeWidth=".1"
+                            strokeOpacity=".5"
+                            fillOpacity=".5"
+                            fontSize="6"
+                            className="dont-print"
+                            pointerEvents="none"
+                            textAnchor="end"
+                            dominantBaseline="hanging">
+                            Drag content to adjust
                         </text>
 
                         <rect

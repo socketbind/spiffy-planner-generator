@@ -125,6 +125,10 @@ class App extends React.Component {
                             this.updateParams({'backgroundY': value});
                             this.forceUpdate();
                         }}
+                        onContentVerticalDrag={value => {
+                            this.updateParams({'contentStart': value});
+                            this.forceUpdate();
+                        }}
                     />
                 </section>
                 <aside>
