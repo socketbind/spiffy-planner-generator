@@ -133,3 +133,7 @@ aside .bp3-card {
     max-height:300px;
     overflow:auto
 }
+
+.app-title {
+    font-family: 'Fredoka One', sans-serif;
+}

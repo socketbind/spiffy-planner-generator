@@ -130,7 +130,7 @@ class App extends React.Component {
                 <aside>
                     <Navbar>
                         <Navbar.Group align={Alignment.LEFT}>
-                            <Navbar.Heading>Spiffy Calendar Generator</Navbar.Heading>
+                            <Navbar.Heading className="app-title">Spiffy Calendar Generator</Navbar.Heading>
                             <Navbar.Divider />
                             <Button className={Classes.MINIMAL} icon="reset" text="Reset" onClick={(_) => this.saveNewParams(this.defaults)} />
                             <Button className={Classes.MINIMAL} icon="print" text="Print" onClick={(_) => window.print()} />
