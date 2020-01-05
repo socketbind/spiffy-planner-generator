@@ -199,7 +199,7 @@ export class CalendarRenderer extends React.Component {
                     />
                 </svg>
                 {params.attribution && <div className="attribution">
-                    Photo by <a href={params.attribution.user.profileUrl}>{params.attribution.user.name}</a> on <a href={params.attribution.photoUrl}>Unsplash</a>
+                    Photo by <a href={params.attribution.user.profileUrl + "?utm_source=spiffy_planner_generator&utm_medium=referral"}>{params.attribution.user.name}</a> on <a href={params.attribution.photoUrl + "?utm_source=spiffy_planner_generator&utm_medium=referral"}>Unsplash</a>
                 </div>}
             </div>
         );
